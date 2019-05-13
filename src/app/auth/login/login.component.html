@@ -1,0 +1,64 @@
+<section
+  class="login-form"
+  fxLayout="row"
+  fxLayoutAlign="center center"
+>
+  <form #f="ngForm"
+        (ngSubmit)="onSubmit(f)"
+        fxLayout="row wrap"
+        fxLayoutAlign="center center"
+        fxFlex="0 0 20vw"
+        fxFlex.lt-lg="0 0 30vw"
+        fxFlex.lt-md="0 0 40vw"
+        fxFlex.lt-sm="0 0 calc(100vw - 32px)"
+
+  >
+    <mat-form-field
+      fxFlex="100%"
+    >
+      <input type="email"
+             matInput
+             ngModel
+             name="email"
+             placeholder="Your email"
+             email
+             required
+             #emailInput="ngModel"
+             autocomplete="email"
+      >
+      <mat-hint>Please enter your email</mat-hint>
+      <mat-error align="end" *ngIf="emailInput.hasError('required') && emailInput.touched">Field must not be empty.
+      </mat-error>
+      <mat-error align="end" *ngIf="!emailInput.hasError('required') && emailInput.touched">E-Mail is invalid.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field
+      fxFlex="100%"
+    >
+      <input type="password"
+             matInput
+             ngModel
+             name="password"
+             placeholder="Your password"
+             required
+             minlength="6"
+             #pwInput="ngModel"
+             autocomplete="current-password"
+      >
+      <mat-hint>Please enter your password.</mat-hint>
+      <mat-error *ngIf="!pwInput.hasError('required') && pwInput.touched">Has to be at least 6 characters long.
+      </mat-error>
+      <mat-error *ngIf="pwInput.hasError('required') && pwInput.touched">Missing password.</mat-error>
+    </mat-form-field>
+    <button
+      *ngIf="!(isLoading$ | async)"
+      mat-raised-button
+      color="primary"
+      [disabled]="f.invalid"
+    >
+      Submit
+    </button>
+    <mat-spinner *ngIf="isLoading$ | async"></mat-spinner>
+  </form>
+</section>
+

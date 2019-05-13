@@ -1,0 +1,68 @@
+<section
+  class="signup-form"
+  fxLayout="row"
+  fxLayoutAlign="center center"
+>
+  <form
+    #f="ngForm"
+    (ngSubmit)="onSubmit(f)"
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    fxFlex="0 0 20vw"
+    fxFlex.lt-lg="0 0 30vw"
+    fxFlex.lt-md="0 0 40vw"
+    fxFlex.lt-sm="0 0 calc(100vw - 32px)"
+  >
+    <mat-form-field fxFlex="100%">
+      <input type="email"
+             matInput
+             placeholder="Your email"
+             ngModel
+             name="email"
+             email
+             required
+             #emailInput="ngModel"
+             autocomplete="email"
+      >
+      <mat-error align="end" *ngIf="!emailInput.hasError('required') && emailInput.touched">E-Mail is invalid.
+      </mat-error>
+      <mat-error align="end" *ngIf="emailInput.hasError('required') && emailInput.touched">Field must not be empty.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field hintLabel="Should be at least 6 characters long." fxFlex="100%">
+      <input type="password"
+             matInput
+             placeholder="Your password"
+             ngModel
+             name="password"
+             required
+             minlength="6"
+             #pwInput="ngModel"
+             autocomplete="new-password"
+      >
+      <mat-hint align="end">{{pwInput.value?.length}} / 6</mat-hint>
+      <mat-error>Has to be at least 6 characters long.</mat-error>
+    </mat-form-field>
+    <app-datepicker-moment
+      fxFlex="100%"
+    ></app-datepicker-moment>
+    <mat-checkbox
+      ngModel
+      name="agree"
+      required
+      color="primary"
+      fxFlex="100%"
+    >
+      <span>Agree to Terms and Conditions.</span>
+    </mat-checkbox>
+    <button
+      *ngIf="!(isLoading$ | async)"
+      mat-raised-button
+      color="primary"
+      [disabled]="f.invalid"
+    >
+      Submit
+    </button>
+    <mat-spinner *ngIf="isLoading$ | async"></mat-spinner>
+  </form>
+</section>
